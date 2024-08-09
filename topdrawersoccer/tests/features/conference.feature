@@ -10,6 +10,7 @@ Feature: Conference
     Then there should be no errors
     And the list should not be empty
     And the list should contain 24 conferences
+    And the list should contain a conference named "Horizon League"
 
   @e2e @conference @dii @men
   Scenario: DII Men's Conferences
@@ -17,6 +18,7 @@ Feature: Conference
     Then there should be no errors
     And the list should not be empty
     And the list should contain 22 conferences
+    And the list should contain a conference named "Gulf South"
 
   @e2e @conference @diii @men
   Scenario: DIII Men's Conferences
@@ -24,6 +26,8 @@ Feature: Conference
     Then there should be no errors
     And the list should not be empty
     And the list should contain 48 conferences
+    And the list should contain a conference named "Great Northeast"
+    And the list should not contain a conference named "Great South"
 
   @e2e @conference @naia @men
   Scenario: NAIA Men's Conferences
@@ -31,6 +35,7 @@ Feature: Conference
     Then there should be no errors
     And the list should not be empty
     And the list should contain 28 conferences
+    And the list should contain a conference named "Kentucky Intercollegiate"
 
   @e2e @conference @njcaa @men
   Scenario: NJCAA Men's Conferences
@@ -38,6 +43,7 @@ Feature: Conference
     Then there should be no errors
     And the list should not be empty
     And the list should contain 57 conferences
+    And the list should contain a conference named "MACJC"
 
   @e2e @conference @di @women
   Scenario: DI Women's Conferences
@@ -45,6 +51,7 @@ Feature: Conference
     Then there should be no errors
     And the list should not be empty
     And the list should contain 30 conferences
+    And the list should contain a conference named "SEC"
 
   @e2e @conference @dii @women
   Scenario: DII Women's Conferences
@@ -52,6 +59,7 @@ Feature: Conference
     Then there should be no errors
     And the list should not be empty
     And the list should contain 23 conferences
+    And the list should contain a conference named "PSAC"
 
   @e2e @conference @diii @women
   Scenario: DIII Women's Conferences
@@ -59,6 +67,7 @@ Feature: Conference
     Then there should be no errors
     And the list should not be empty
     And the list should contain 49 conferences
+    And the list should contain a conference named "Great South"
 
   @e2e @conference @naia @women
   Scenario: NAIA Women's Conferences

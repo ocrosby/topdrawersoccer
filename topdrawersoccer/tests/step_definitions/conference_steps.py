@@ -93,3 +93,15 @@ def verify_conference_url(expected_url: str, context):
 def verify_conference_count(expected_count: int, context):
     actual_count = len(context['list'])
     assert actual_count == expected_count, f"Expected {expected_count} conferences, but got {actual_count}"
+
+
+@then(parsers.parse('The list should contain a conference named "{expected_name}"'))
+def verify_conference_in_list(expected_name: str, context):
+    conferences = context['list']
+    assert any(conference.name == expected_name for conference in conferences), f"Expected conference named {expected_name} in list"
+
+
+@then(parsers.parse('The list should not contain a conference named "{expected_name}"'))
+def verify_conference_not_in_list(expected_name: str, context):
+    conferences = context['list']
+    assert not any(conference.name == expected_name for conference in conferences), f"Expected conference named {expected_name} not in list"
