@@ -2,8 +2,6 @@ import pytest
 
 from pytest_bdd import then, scenarios
 
-scenarios('../features/transfer.feature')
-
 
 @pytest.fixture
 def context():
