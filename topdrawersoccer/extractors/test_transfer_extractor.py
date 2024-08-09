@@ -5,6 +5,7 @@ import pytest
 from topdrawersoccer.extractors.transfer_extractor import TransferExtractor, get_position, get_name
 
 
+@pytest.mark.unit
 @pytest.mark.parametrize("name_field, expected_position", [
     ("", None),
     ("F Desiree Foster", "F"),
@@ -21,6 +22,7 @@ def test_get_position(name_field: str, expected_position: Optional[str]):
     assert actual_position == expected_position, f"Expected position: '{expected_position}' got '{actual_position}'"
 
 
+@pytest.mark.unit
 @pytest.mark.parametrize("name_field, expected_name", [
     ("", ""),
     ("F Desiree Foster", "Desiree Foster"),
