@@ -110,3 +110,12 @@ def test_lookup_conference_by_id_1044():
 @scenario("./features/conference.feature", "Lookup Conference By ID 123")
 def test_lookup_conference_by_id_123():
     pass
+
+
+@pytest.mark.e2e
+@pytest.mark.conference
+@pytest.mark.lookup
+@scenario('./features/conference.feature', "Lookup Men's Conference By Name - Big Ten")
+def test_lookup_mens_conference_by_name_big_ten():
+    pass
+

@@ -169,3 +169,24 @@ class ConferenceExtractor(BaseExtractor):
                     return conference
 
         return None
+
+    @staticmethod
+    def lookup_conference_by_name(gender: str, name: str) -> Optional[Conference]:
+        """
+        This function looks up a conference by its name.
+        """
+        for division in DIVISIONS:
+            extractor = ConferenceExtractor(division)
+            for conference in extractor.extract():
+                if not conference:
+                    continue
+
+                if conference.gender != gender:
+                    continue
+
+                if conference.name != name:
+                    continue
+
+                return conference
+
+        return None

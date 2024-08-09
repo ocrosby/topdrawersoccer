@@ -28,6 +28,25 @@ def retrieve_conference_by_id(cid: int, context):
         context['conference'] = conference
 
 
+def remove_double_quotes(s: str) -> str:
+    return s.replace('"', "")
+
+
+@when(parsers.parse('I retrieve the {gender} conference with name {name}'))
+def retrieve_conference_by_name(gender: str, name: str, context):
+    conference = None
+
+    gender = remove_double_quotes(gender)
+    name = remove_double_quotes(name)
+
+    try:
+        conference = ConferenceExtractor.lookup_conference_by_name(gender, name)
+    except Exception as e:
+        context['errors'].append(str(e))
+    finally:
+        context['conference'] = conference
+
+
 @then('the conference should be found')
 def verify_conference_found(context):
     conference = context['conference']

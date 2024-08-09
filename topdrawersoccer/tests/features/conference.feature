@@ -96,3 +96,15 @@ Feature: Conference
   And the conference should have division NAIA
   And the conference should be a Men's conference
   And the conference should have the url "https://www.topdrawersoccer.com/college-soccer/college-conferences/conference-details/men/california-pacific/cfid-123"
+
+
+  @e2e @conference @lookup
+  Scenario: Lookup Men's Conference By Name - Big Ten
+    When I retrieve the Men's conference with name "Big Ten"
+    Then there should be no errors
+    And the conference should be found
+    And the conference should have the ID 7
+    And the conference should have the name "Big Ten"
+    And the conference should have division DI
+    And the conference should be a Men's conference
+    And the conference should have the url "https://www.topdrawersoccer.com/college-soccer/college-conferences/conference-details/men/big-ten/cfid-7"
