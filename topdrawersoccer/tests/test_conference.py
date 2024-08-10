@@ -99,7 +99,7 @@ def test_njcaa_womens_conferences():
 @pytest.mark.e2e
 @pytest.mark.conference
 @pytest.mark.lookup
-@scenario("./features/conference.feature", "Lookup Conference By ID 1044")
+@scenario("./features/conference.feature", "Lookup Men's Conference By ID 1044")
 def test_lookup_conference_by_id_1044():
     pass
 
@@ -125,4 +125,22 @@ def test_lookup_mens_conference_by_name_big_ten():
 @pytest.mark.lookup
 @scenario('./features/conference.feature', "Lookup Women's Conference By Name - Big Ten")
 def test_lookup_womens_conference_by_name_big_ten():
+    pass
+
+
+@pytest.mark.e2e
+@pytest.mark.conference
+@pytest.mark.schools
+@pytest.mark.lookup
+@scenario('./features/conference.feature', "Retrieve Schools for Men's Conference by Conference Name - Big Ten")
+def test_retrieve_schools_for_conference_by_conference_name_big_ten():
+    pass
+
+
+@pytest.mark.e2e
+@pytest.mark.conference
+@pytest.mark.schools
+@pytest.mark.lookup
+@scenario('./features/conference.feature', "Retrieve Schools for Men's Conference by Conference ID - 22")
+def test_retrieve_schools_for_conference_by_conference_id_22():
     pass

@@ -5,7 +5,9 @@ from pytest_bdd import then, scenarios
 
 @pytest.fixture
 def context():
-    return {}
+    return {
+        'errors': [],
+    }
 
 
 @then('there should be no errors')

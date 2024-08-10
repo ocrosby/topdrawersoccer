@@ -11,6 +11,7 @@ from topdrawersoccer.utils.url import extract_id_from_url
     ("https://www.acme.com/cfid-55", 55, False, None),
     ("https://www.acme.com/cfid-", None, True, "ID not found in URL: https://www.acme.com/cfid-"),
     ("https://www.acme.com/big-ten/", None, True, "ID not found in URL: https://www.acme.com/big-ten/"),
+    ("/college-soccer/college-soccer-details/men/washington/clgid-159", 159, False, None),
 ])
 def test_extract_id_from_url(url, expected_id, expect_error, error_message):
     if expect_error:

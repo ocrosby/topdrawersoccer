@@ -9,6 +9,7 @@ venv:
 
 clean:
 	@echo "Cleaning up ..."
+	@rm -f .coverage
 
 install:
 	@pip install -r requirements.txt

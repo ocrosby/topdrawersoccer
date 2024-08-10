@@ -75,7 +75,7 @@ class ConferenceExtractor(BaseExtractor):
             rows = table.find_all('tr')
 
             # Loop over all rows to extract the conference data
-            for row in rows[1:]:
+            for row in rows:
                 cols = row.find_all('td')
                 name = cols[0].text.strip()
                 resource = cols[0].find('a')['href']
@@ -144,7 +144,7 @@ class ConferenceExtractor(BaseExtractor):
             raise ValueError(f"Unsupported gender {gender}!")
 
     @staticmethod
-    def lookup_conference_by_id(cid: int) -> Optional[Conference]:
+    def lookup_conference_by_id(gender: str, cid: int) -> Optional[Conference]:
         """
         This function looks up a conference by its ID.
 
@@ -153,11 +153,20 @@ class ConferenceExtractor(BaseExtractor):
         """
         for division in DIVISIONS:
             extractor = ConferenceExtractor(division)
-            for conference in extractor.extract():
-                if conference.id == cid:
-                    return conference
+            conferences = extractor.extract()
+            for conference in conferences:
+                if not conference:
+                    continue
 
-        return None
+                if conference.gender != gender:
+                    continue
+
+                if conference.id != cid:
+                    continue
+
+                return conference
+
+        raise ValueError(f"Conference with ID {cid} not found!")
 
     @staticmethod
     def lookup_conference_by_name(gender: str, name: str) -> Optional[Conference]:
@@ -178,7 +187,7 @@ class ConferenceExtractor(BaseExtractor):
 
                 return conference
 
-        return None
+        raise ValueError(f"Conference with name '{name}' not found!")
 
 
 class SchoolExtractor(BaseExtractor):
@@ -194,7 +203,6 @@ class SchoolExtractor(BaseExtractor):
         schools: list[School] = []
 
         soup = BeautifulSoup(html, 'html.parser')
-        schools_list = []
 
         # Search for all divs with the class 'col-lg-6'
         for div in soup.find_all('div', class_='col-lg-6'):
@@ -209,7 +217,7 @@ class SchoolExtractor(BaseExtractor):
                 rows = table.find_all('tr')
 
                 # Loop over all rows to extract the conference data
-                for row in rows[1:]:
+                for row in rows:
                     cols = row.find_all('td')
                     name = cols[1].text.strip()
                     resource = cols[1].find('a')['href']
@@ -218,11 +226,25 @@ class SchoolExtractor(BaseExtractor):
                     school = School(
                         id=sid,
                         name=name,
-                        url=urljoin(ENDPOINT, resource)
+                        url=urljoin(ENDPOINT, resource),
+                        division=None,
+                        conference_id=0,
                     )
 
-                    schools_list.append(school)
+                    schools.append(school)
 
+        return schools
 
+    def extract(self) -> list[School]:
+        return self.parse_page(self.fetch_page())
+
+    def get_schools(self, conference_id: int, division: str) -> list[School]:
+        schools: list[School]
+
+        schools = self.extract()
+
+        for school in schools:
+            school.conference_id = conference_id
+            school.division = division
 
         return schools

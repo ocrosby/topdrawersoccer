@@ -8,7 +8,7 @@ def extract_id_from_url(url: str) -> int:
     :param url: The URL containing the conference ID.
     :return: The extracted conference ID.
     """
-    match = re.search(r'cfid-(\d+)', url)
+    match = re.search(r'[-](\d+)', url)
     if match:
         return int(match.group(1))
     else:

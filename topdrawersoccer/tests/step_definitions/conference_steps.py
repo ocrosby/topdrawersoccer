@@ -2,6 +2,7 @@ from pytest_bdd import when, then, parsers
 
 from topdrawersoccer.tests.step_definitions.common_steps import context
 from topdrawersoccer.extractors.conference_extractor import ConferenceExtractor, SchoolExtractor
+from topdrawersoccer.models.school import School
 
 
 @when(parsers.parse('I retrieve the list of {division} {gender} conferences'))
@@ -16,12 +17,12 @@ def retrieve_list_of_conferences(division: str, gender: str, context):
         context['list'] = conferences
 
 
-@when(parsers.parse('I retrieve the conference with ID {cid:d}'))
-def retrieve_conference_by_id(cid: int, context):
+@when(parsers.parse('I retrieve the {gender} conference with ID {cid:d}'))
+def retrieve_conference_by_id(gender: str, cid: int, context):
     conference = None
 
     try:
-        conference = ConferenceExtractor.lookup_conference_by_id(cid)
+        conference = ConferenceExtractor.lookup_conference_by_id(gender, cid)
     except Exception as e:
         context['errors'].append(str(e))
     finally:
@@ -47,17 +48,35 @@ def retrieve_conference_by_name(gender: str, name: str, context):
         context['conference'] = conference
 
 
-@when(parsers.parse("I retrieve the schools for the conference with ID {cid:d}"))
-def retrieve_schools_for_conference(cid: int, context):
+@when(parsers.parse('I retrieve schools for the "{gender}" conference with name "{name}"'))
+def retrieve_schools_for_conference_name(gender: str, name: str, context):
     schools = None
 
+    gender = remove_double_quotes(gender)
+    name = remove_double_quotes(name)
+
     try:
-        conference = ConferenceExtractor.lookup_conference_by_id(cid)
-
+        conference = ConferenceExtractor.lookup_conference_by_name(gender, name)
         school_extractor = SchoolExtractor(conference.url)
-        # Once we have the conference we need to use its URL to load the schools from the conference page.
+        schools = school_extractor.get_schools(conference.id, conference.division)
+    except Exception as e:
+        context['errors'].append(str(e))
+    finally:
+        context['list'] = schools
 
-        schools = conference.get_schools()
+
+@when(parsers.parse('I retrieve schools for the "{gender}" conference with ID {cid:d}'))
+def retrieve_schools_for_conference_id(gender: str, cid: int, context):
+    schools = None
+
+    gender = remove_double_quotes(gender)
+
+    try:
+        conference = ConferenceExtractor.lookup_conference_by_id(gender, cid)
+        school_extractor = SchoolExtractor(conference.url)
+        schools = school_extractor.get_schools(conference.id, conference.division)
+    except ValueError as e:
+        context['errors'].append(str(e))
     except Exception as e:
         context['errors'].append(str(e))
     finally:
@@ -122,3 +141,25 @@ def verify_conference_in_list(expected_name: str, context):
 def verify_conference_not_in_list(expected_name: str, context):
     conferences = context['list']
     assert not any(conference.name == expected_name for conference in conferences), f"Expected conference named {expected_name} not in list"
+
+
+@then(parsers.parse('there should be {expected_count:d} schools in the list'))
+def verify_school_count(expected_count: int, context):
+    assert 'list' in context, "Expected a list of schools"
+    target_list = context['list']
+    assert target_list is not None, "Expected a list of schools"
+    actual_count = len(target_list)
+    assert actual_count == expected_count, f"Expected {expected_count} schools, but got {actual_count}"
+
+    # Loop over all the items in the list and make sure they are of type School
+    for item in target_list:
+        assert isinstance(item, School)
+
+
+@then(parsers.parse('the list should contain a school named "{expected_name}"'))
+def verify_school_in_list(expected_name: str, context):
+    expected_name = remove_double_quotes(expected_name)
+
+    target_list = context['list']
+    assert target_list is not None, "Expected a list of schools"
+    assert any(school.name == expected_name for school in target_list), f"Expected school named {expected_name} in list"

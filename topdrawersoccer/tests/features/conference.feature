@@ -10,7 +10,7 @@ Feature: Conference
     When I retrieve the list of DI Men's conferences
     Then there should be no errors
     And the list should not be empty
-    And the list should contain 24 conferences
+    And the list should contain 25 conferences
     And the list should contain a conference named "Horizon League"
 
   @e2e @conference @dii @men
@@ -18,7 +18,7 @@ Feature: Conference
     When I retrieve the list of DII Men's conferences
     Then there should be no errors
     And the list should not be empty
-    And the list should contain 22 conferences
+    And the list should contain 23 conferences
     And the list should contain a conference named "Gulf South"
 
   @e2e @conference @diii @men
@@ -26,7 +26,7 @@ Feature: Conference
     When I retrieve the list of DIII Men's conferences
     Then there should be no errors
     And the list should not be empty
-    And the list should contain 48 conferences
+    And the list should contain 49 conferences
     And the list should contain a conference named "Great Northeast"
     And the list should not contain a conference named "Great South"
 
@@ -35,7 +35,7 @@ Feature: Conference
     When I retrieve the list of NAIA Men's conferences
     Then there should be no errors
     And the list should not be empty
-    And the list should contain 28 conferences
+    And the list should contain 29 conferences
     And the list should contain a conference named "Kentucky Intercollegiate"
 
   @e2e @conference @njcaa @men
@@ -43,7 +43,7 @@ Feature: Conference
     When I retrieve the list of NJCAA Men's conferences
     Then there should be no errors
     And the list should not be empty
-    And the list should contain 57 conferences
+    And the list should contain 58 conferences
     And the list should contain a conference named "MACJC"
 
   @e2e @conference @di @women
@@ -51,7 +51,7 @@ Feature: Conference
     When I retrieve the list of DI Women's conferences
     Then there should be no errors
     And the list should not be empty
-    And the list should contain 30 conferences
+    And the list should contain 31 conferences
     And the list should contain a conference named "SEC"
 
   @e2e @conference @dii @women
@@ -59,7 +59,7 @@ Feature: Conference
     When I retrieve the list of DII Women's conferences
     Then there should be no errors
     And the list should not be empty
-    And the list should contain 23 conferences
+    And the list should contain 24 conferences
     And the list should contain a conference named "PSAC"
 
   @e2e @conference @diii @women
@@ -67,7 +67,7 @@ Feature: Conference
     When I retrieve the list of DIII Women's conferences
     Then there should be no errors
     And the list should not be empty
-    And the list should contain 49 conferences
+    And the list should contain 50 conferences
     And the list should contain a conference named "Great South"
 
   @e2e @conference @naia @women
@@ -75,18 +75,18 @@ Feature: Conference
     When I retrieve the list of NAIA Women's conferences
     Then there should be no errors
     And the list should not be empty
-    And the list should contain 28 conferences
+    And the list should contain 29 conferences
 
   @e2e @conference @njcaa @women
   Scenario: NJCAA Women's Conferences
     When I retrieve the list of NJCAA Women's conferences
     Then there should be no errors
     And the list should not be empty
-    And the list should contain 58 conferences
+    And the list should contain 59 conferences
 
   @e2e @conference @lookup
-  Scenario: Lookup Conference By ID 1044
-    When I retrieve the conference with ID 1044
+  Scenario: Lookup Men's Conference By ID 1044
+    When I retrieve the Women's conference with ID 1044
     Then there should be no errors
     And the conference should be found
     And the conference should have the ID 1044
@@ -98,7 +98,7 @@ Feature: Conference
 
   @e2e @conference @lookup
   Scenario: Lookup Conference By ID 123
-  When I retrieve the conference with ID 123
+  When I retrieve the Men's conference with ID 123
   Then there should be no errors
   And the conference should be found
   And the conference should have the ID 123
@@ -131,23 +131,35 @@ Feature: Conference
     And the conference should be a Women's conference
     And the conference should have the url "https://www.topdrawersoccer.com/college-soccer/college-conferences/conference-details/women/big-ten/cfid-7"
 
-
-  Scenario: Retrieve Schools for Conference by Conference Name
-
-  Scenario: Retrieve Schools for Conference by Conference ID
-    When I retrieve the schools for the conference with ID 22
+  @e23 @conference @schools @lookup
+  Scenario: Retrieve Schools for Men's Conference by Conference Name - Big Ten
+    When I retrieve schools for the "Men's" conference with name "Big Ten"
     Then there should be no errors
-    And there should be 12 schools in the list
-    And the list should contain a school named "Libscomb"
-    And the list should contain a school named "North Florida"
-    And the list should contain a school named "Central Arkansas"
-    And the list should contain a school named "FGCU"
-    And the list should contain a school named "Eastern Kentucky"
-    And the list should contain a school named "Bellarmine"
-    And the list should contain a school named "Austin Peay"
+    And there should be 11 schools in the list
+    And the list should contain a school named "Indiana"
+    And the list should contain a school named "Washington"
+    And the list should contain a school named "Penn State"
+    And the list should contain a school named "Michigan"
+    And the list should contain a school named "Maryland"
+    And the list should contain a school named "Rutgers"
+    And the list should contain a school named "Michigan State"
+    And the list should contain a school named "Ohio State"
+    And the list should contain a school named "UCLA"
+    And the list should contain a school named "Wisconsin"
+    And the list should contain a school named "Northwestern"
+
+
+  @e23 @conference @schools @lookup
+  Scenario: Retrieve Schools for Men's Conference by Conference ID - 22
+    When I retrieve schools for the "Men's" conference with ID 22
+    Then there should be no errors
+    And there should be 8 schools in the list
     And the list should contain a school named "Jacksonville"
-    And the list should contain a school named "North Alabama"
+    And the list should contain a school named "Central Arkansas"
+    And the list should contain a school named "Bellarmine"
+    And the list should contain a school named "FGCU"
+    And the list should contain a school named "North Florida"
+    And the list should contain a school named "Lipscomb"
     And the list should contain a school named "Stetson"
     And the list should contain a school named "Queens (N.C.)"
-    And the list should contain a school named "West Georgia"
 
