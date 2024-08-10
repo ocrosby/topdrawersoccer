@@ -1,7 +1,7 @@
 from pytest_bdd import when, then, parsers
 
 from topdrawersoccer.tests.step_definitions.common_steps import context
-from topdrawersoccer.extractors.conference_extractor import ConferenceExtractor
+from topdrawersoccer.extractors.conference_extractor import ConferenceExtractor, SchoolExtractor
 
 
 @when(parsers.parse('I retrieve the list of {division} {gender} conferences'))
@@ -45,6 +45,23 @@ def retrieve_conference_by_name(gender: str, name: str, context):
         context['errors'].append(str(e))
     finally:
         context['conference'] = conference
+
+
+@when(parsers.parse("I retrieve the schools for the conference with ID {cid:d}"))
+def retrieve_schools_for_conference(cid: int, context):
+    schools = None
+
+    try:
+        conference = ConferenceExtractor.lookup_conference_by_id(cid)
+
+        school_extractor = SchoolExtractor(conference.url)
+        # Once we have the conference we need to use its URL to load the schools from the conference page.
+
+        schools = conference.get_schools()
+    except Exception as e:
+        context['errors'].append(str(e))
+    finally:
+        context['list'] = schools
 
 
 @then('the conference should be found')

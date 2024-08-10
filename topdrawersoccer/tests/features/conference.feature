@@ -1,4 +1,5 @@
 # Created by omar at 8/7/24
+# See: https://www.topdrawersoccer.com/college-soccer/college-conferences/di/divisionid-1
 Feature: Conference
   As a user
   I want to see the conference information
@@ -129,3 +130,24 @@ Feature: Conference
     And the conference should have division DI
     And the conference should be a Women's conference
     And the conference should have the url "https://www.topdrawersoccer.com/college-soccer/college-conferences/conference-details/women/big-ten/cfid-7"
+
+
+  Scenario: Retrieve Schools for Conference by Conference Name
+
+  Scenario: Retrieve Schools for Conference by Conference ID
+    When I retrieve the schools for the conference with ID 22
+    Then there should be no errors
+    And there should be 12 schools in the list
+    And the list should contain a school named "Libscomb"
+    And the list should contain a school named "North Florida"
+    And the list should contain a school named "Central Arkansas"
+    And the list should contain a school named "FGCU"
+    And the list should contain a school named "Eastern Kentucky"
+    And the list should contain a school named "Bellarmine"
+    And the list should contain a school named "Austin Peay"
+    And the list should contain a school named "Jacksonville"
+    And the list should contain a school named "North Alabama"
+    And the list should contain a school named "Stetson"
+    And the list should contain a school named "Queens (N.C.)"
+    And the list should contain a school named "West Georgia"
+

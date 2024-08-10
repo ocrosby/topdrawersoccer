@@ -5,24 +5,13 @@ from typing import Optional
 
 from bs4 import BeautifulSoup
 
+from topdrawersoccer.utils.url import extract_id_from_url
 from topdrawersoccer.models.conference import Conference
+from topdrawersoccer.models.school import School
 from topdrawersoccer.extractors.base_extractor import BaseExtractor
 
 ENDPOINT = "https://www.topdrawersoccer.com"
 DIVISIONS = ["DI", "DII", "DIII", "NAIA", "NJCAA"]
-
-def extract_conference_id(url: str) -> int:
-    """
-    Extracts the conference ID from the given URL.
-
-    :param url: The URL containing the conference ID.
-    :return: The extracted conference ID.
-    """
-    match = re.search(r'cfid-(\d+)', url)
-    if match:
-        return int(match.group(1))
-    else:
-        raise ValueError(f"Conference ID not found in URL: {url}")
 
 
 def get_url_by_division(division: str) -> str:
@@ -90,7 +79,7 @@ class ConferenceExtractor(BaseExtractor):
                 cols = row.find_all('td')
                 name = cols[0].text.strip()
                 resource = cols[0].find('a')['href']
-                cid = extract_conference_id(resource)
+                cid = extract_id_from_url(resource)
 
                 conference = Conference(
                     id=cid,
@@ -190,3 +179,50 @@ class ConferenceExtractor(BaseExtractor):
                 return conference
 
         return None
+
+
+class SchoolExtractor(BaseExtractor):
+    def __init__(self, url: str):
+        super().__init__(url)
+
+    def parse_page(self, html: str) -> list[School]:
+        """
+        This function parses the schools page.
+
+        :param html: The HTML content of the schools page.
+        """
+        schools: list[School] = []
+
+        soup = BeautifulSoup(html, 'html.parser')
+        schools_list = []
+
+        # Search for all divs with the class 'col-lg-6'
+        for div in soup.find_all('div', class_='col-lg-6'):
+            # Look for the h1 tag with class 'title-context'
+            h1 = div.find('h1', class_='title-context')
+            title = h1.text
+
+            if title == "Conference Standings":
+                table = div.find('table', class_=['table-striped', 'tds_table'])
+
+                # Look for all rows in the table
+                rows = table.find_all('tr')
+
+                # Loop over all rows to extract the conference data
+                for row in rows[1:]:
+                    cols = row.find_all('td')
+                    name = cols[1].text.strip()
+                    resource = cols[1].find('a')['href']
+                    sid = extract_id_from_url(resource)
+
+                    school = School(
+                        id=sid,
+                        name=name,
+                        url=urljoin(ENDPOINT, resource)
+                    )
+
+                    schools_list.append(school)
+
+
+
+        return schools
