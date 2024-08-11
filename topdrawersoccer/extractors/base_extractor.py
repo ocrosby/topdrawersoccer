@@ -15,6 +15,8 @@ class BaseExtractor:
 
         :return: The HTML content of the transfer tracker page.
         """
+        print(f"Fetching page: '{self.url}' ...")
+
         url_parts = urlparse(self.url)
 
         # Check if the URL is valid

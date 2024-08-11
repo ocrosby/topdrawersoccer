@@ -185,5 +185,12 @@ class ConferenceExtractor(BaseExtractor):
 
         raise ValueError(f"Conference with name '{name}' not found!")
 
+    @staticmethod
+    def map_conference_id_to_name(division: str) -> dict[int, str]:
+        """
+        This function returns a mapping of conference ID to conference name.
+        """
+        extractor = ConferenceExtractor(division)
+        conferences = extractor.extract()
 
-
+        return {conference.id: conference.name for conference in conferences}

@@ -17,6 +17,8 @@ DIVISION_TO_URL_MAP = {
 
 from topdrawersoccer.config import DIVISIONS
 
+from topdrawersoccer.extractors.conference_extractor import ConferenceExtractor
+
 
 class TeamExtractor(BaseExtractor):
     def __init__(self, url: str):
@@ -122,15 +124,69 @@ class TeamExtractor(BaseExtractor):
 
         return all_teams
 
+    @staticmethod
+    def teams_by_gender(gender: str) -> list[Team]:
+        """
+        This function retrieves the teams by gender.
+        """
+        filtered_teams = []
+
+        for division in DIVISIONS:
+            division_url = DIVISION_TO_URL_MAP[division]
+            division_extractor = TeamExtractor(division_url)
+            all_teams = division_extractor.get_all_teams()
+
+            for team in all_teams:
+                if team.gender != gender:
+                    continue
+
+                filtered_teams.append(team)
+
+        return filtered_teams
 
     @staticmethod
     def teams_by_gender_and_division(gender: str, division: str):
-        if gender == "Women's":
-            return TeamExtractor(DIVISION_TO_URL_MAP[division]).get_womens_teams()
-        elif gender == "Men's":
-            return TeamExtractor(DIVISION_TO_URL_MAP[division]).get_mens_teams()
-        else:
-            raise ValueError(f"Unsupported gender '{gender}'!")
+        filtered_teams = []
+
+        division_url = DIVISION_TO_URL_MAP[division]
+        division_extractor = TeamExtractor(division_url)
+        all_teams = division_extractor.get_all_teams()
+
+        for team in all_teams:
+            if team.gender != gender:
+                continue
+
+            filtered_teams.append(team)
+
+        return filtered_teams
+
+
+    @staticmethod
+    def teams_by_gender_division_and_conference(gender: str, division: str, target_conference_name: str):
+        """
+        This function retrieves the teams by gender, division, and conference name.
+        """
+        division_url = DIVISION_TO_URL_MAP[division]
+        division_extractor = TeamExtractor(division_url)
+        all_teams = division_extractor.get_all_teams()
+
+        conference_id_to_name_map = ConferenceExtractor.map_conference_id_to_name(division)
+
+        filtered_teams = []
+        for team in all_teams:
+            if team.gender != gender:
+                continue
+
+            if team.conference_id not in conference_id_to_name_map:
+                continue
+
+            conference_name = conference_id_to_name_map[team.conference_id]
+            if conference_name != target_conference_name:
+                continue
+
+            filtered_teams.append(team)
+
+        return filtered_teams
 
 
 if __name__ == "__main__":

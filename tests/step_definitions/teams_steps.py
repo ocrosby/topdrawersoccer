@@ -8,7 +8,7 @@ from topdrawersoccer.extractors.team_extractor import TeamExtractor
 @when(parsers.parse('I retrieve all "{gender}" teams'))
 def retrieve_all_teams_by_gender(gender: str, context):
     try:
-        context['list'] = TeamExtractor.all_teams()
+        context['list'] = TeamExtractor.teams_by_gender(gender)
     except Exception as e:
         context['errors'].append(str(e))
 
@@ -16,7 +16,11 @@ def retrieve_all_teams_by_gender(gender: str, context):
 @when(parsers.parse('I retrieve "{gender}" {division} teams by conference {conference_name}'))
 def retrieve_teams_by_gender_division_and_name(gender: str, division: str, conference_name: str, context):
     try:
-        TeamExtractor.teams_by_gender_and_division(gender, division)
+        gender = remove_double_quotes(gender)
+        division = remove_double_quotes(division)
+        conference_name = remove_double_quotes(conference_name)
+
+        context['list'] = TeamExtractor.teams_by_gender_division_and_conference(gender, division, conference_name)
     except Exception as e:
         context['errors'].append(str(e))
 
@@ -24,7 +28,7 @@ def retrieve_teams_by_gender_division_and_name(gender: str, division: str, confe
 @when(parsers.parse('I retrieve "{gender}" {division} teams'))
 def retrieve_teams_by_gender_and_division(gender: str, division: str, context):
     try:
-        TeamExtractor.teams_by_gender_and_division(gender, division)
+        context['list'] = TeamExtractor.teams_by_gender_and_division(gender, division)
     except Exception as e:
         context['errors'].append(str(e))
 
@@ -58,13 +62,16 @@ def validate_team_by_name(expected_team_name: str, context):
     """
     expected_team_name = remove_double_quotes(expected_team_name)
 
+    items = context.get('list', None)
+    assert items is not None, 'The list is not defined!'
+
     found = False
-    for item in context.get('list', None):
+    for item in items:
         if item and isinstance(item, Team) and item.name == expected_team_name:
             found = True
             break
 
-    assert found
+    assert found, f'Team named "{expected_team_name}" not found!'
 
 
 @then(parsers.parse('the list should not contain a team named "{unexpected_team_name}"'))
@@ -84,4 +91,4 @@ def validate_team_not_in_list(unexpected_team_name: str, context):
             found = True
             break
 
-    assert not found
+    assert not found, f'Team named "{unexpected_team_name}" found!'

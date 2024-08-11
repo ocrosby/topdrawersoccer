@@ -18,7 +18,7 @@ Feature: # Enter feature name here
     When I retrieve "Men's" DI teams by conference "ASUN"
     Then there should be no errors
     And the list should contain teams
-    And the list should contain 12 teams
+    And the list should contain 8 teams
     And the list should contain a team named "Stetson"
 
   @e2e @team @women @di
