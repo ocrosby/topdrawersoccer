@@ -131,7 +131,7 @@ Feature: Conference
     And the conference should be a Women's conference
     And the conference should have the url "https://www.topdrawersoccer.com/college-soccer/college-conferences/conference-details/women/big-ten/cfid-7"
 
-  @e23 @conference @schools @lookup
+  @e2e @conference @schools @lookup
   Scenario: Retrieve Schools for Men's Conference by Conference Name - Big Ten
     When I retrieve schools for the "Men's" conference with name "Big Ten"
     Then there should be no errors
@@ -149,7 +149,7 @@ Feature: Conference
     And the list should contain a school named "Northwestern"
 
 
-  @e23 @conference @schools @lookup
+  @e2e @conference @schools @lookup
   Scenario: Retrieve Schools for Men's Conference by Conference ID - 22
     When I retrieve schools for the "Men's" conference with ID 22
     Then there should be no errors

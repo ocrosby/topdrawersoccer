@@ -16,6 +16,11 @@ class BaseExtractor:
         :return: The HTML content of the transfer tracker page.
         """
         url_parts = urlparse(self.url)
+
+        # Check if the URL is valid
+        if not url_parts.scheme or not url_parts.netloc:
+            raise ValueError(f"Invalid URL: {self.url}")
+
         conn = http.client.HTTPSConnection(url_parts.netloc)
         conn.request("GET", url_parts.path)
         response = conn.getresponse()

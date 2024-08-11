@@ -13,6 +13,14 @@ from topdrawersoccer.extractors.base_extractor import BaseExtractor
 ENDPOINT = "https://www.topdrawersoccer.com"
 DIVISIONS = ["DI", "DII", "DIII", "NAIA", "NJCAA"]
 
+DIVISION_TO_URL_MAPPING = {
+    "DI": "/college-soccer/college-conferences/di/divisionid-1",
+    "DII": "/college-soccer/college-conferences/dii/divisionid-2",
+    "DIII": "/college-soccer/college-conferences/diii/divisionid-3",
+    "NAIA": "/college-soccer/college-conferences/naia/divisionid-4",
+    "NJCAA": "/college-soccer/college-conferences/njcaa/divisionid-5"
+}
+
 
 def get_url_by_division(division: str) -> str:
     """
@@ -21,22 +29,10 @@ def get_url_by_division(division: str) -> str:
     :param division: The division of the transfer tracker.
     :return: The URL for the transfer tracker.
     """
-    url = None
-
-    if division == "DI":
-        url = urljoin(ENDPOINT, url="/college-soccer/college-conferences/di/divisionid-1")
-    elif division == "DII":
-        url = urljoin(ENDPOINT, url="/college-soccer/college-conferences/dii/divisionid-2")
-    elif division == "DIII":
-        url = urljoin(ENDPOINT, url="/college-soccer/college-conferences/diii/divisionid-3")
-    elif division == "NAIA":
-        url = urljoin(ENDPOINT, url="/college-soccer/college-conferences/naia/divisionid-4")
-    elif division == "NJCAA":
-        url = urljoin(ENDPOINT, url="/college-soccer/college-conferences/njcaa/divisionid-5")
-    else:
+    if division not in DIVISION_TO_URL_MAPPING:
         raise ValueError(f"Unsupported division: {division}")
 
-    return url
+    return urljoin(ENDPOINT, url=DIVISION_TO_URL_MAPPING[division])
 
 
 class ConferenceExtractor(BaseExtractor):
@@ -190,61 +186,4 @@ class ConferenceExtractor(BaseExtractor):
         raise ValueError(f"Conference with name '{name}' not found!")
 
 
-class SchoolExtractor(BaseExtractor):
-    def __init__(self, url: str):
-        super().__init__(url)
 
-    def parse_page(self, html: str) -> list[School]:
-        """
-        This function parses the schools page.
-
-        :param html: The HTML content of the schools page.
-        """
-        schools: list[School] = []
-
-        soup = BeautifulSoup(html, 'html.parser')
-
-        # Search for all divs with the class 'col-lg-6'
-        for div in soup.find_all('div', class_='col-lg-6'):
-            # Look for the h1 tag with class 'title-context'
-            h1 = div.find('h1', class_='title-context')
-            title = h1.text
-
-            if title == "Conference Standings":
-                table = div.find('table', class_=['table-striped', 'tds_table'])
-
-                # Look for all rows in the table
-                rows = table.find_all('tr')
-
-                # Loop over all rows to extract the conference data
-                for row in rows:
-                    cols = row.find_all('td')
-                    name = cols[1].text.strip()
-                    resource = cols[1].find('a')['href']
-                    sid = extract_id_from_url(resource)
-
-                    school = School(
-                        id=sid,
-                        name=name,
-                        url=urljoin(ENDPOINT, resource),
-                        division=None,
-                        conference_id=0,
-                    )
-
-                    schools.append(school)
-
-        return schools
-
-    def extract(self) -> list[School]:
-        return self.parse_page(self.fetch_page())
-
-    def get_schools(self, conference_id: int, division: str) -> list[School]:
-        schools: list[School]
-
-        schools = self.extract()
-
-        for school in schools:
-            school.conference_id = conference_id
-            school.division = division
-
-        return schools
