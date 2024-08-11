@@ -1,7 +1,6 @@
 from pytest_bdd import when
 
 from topdrawersoccer.extractors.transfer_extractor import TransferExtractor
-from topdrawersoccer.tests.step_definitions.common_steps import context
 
 extractor = TransferExtractor()
 

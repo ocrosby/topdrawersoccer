@@ -2,15 +2,12 @@ import pytest
 
 from pytest_bdd import scenario
 
-from topdrawersoccer.tests.step_definitions.common_steps import *
-from topdrawersoccer.tests.step_definitions.conference_steps import *
-
 
 @pytest.mark.e2e
 @pytest.mark.conference
 @pytest.mark.di
 @pytest.mark.men
-@scenario("./features/conference.feature", "DI Men's Conferences")
+@scenario("features/conference.feature", "DI Men's Conferences")
 def test_di_mens_conferences():
     pass
 
@@ -19,7 +16,7 @@ def test_di_mens_conferences():
 @pytest.mark.conference
 @pytest.mark.dii
 @pytest.mark.men
-@scenario("./features/conference.feature", "DII Men's Conferences")
+@scenario("features/conference.feature", "DII Men's Conferences")
 def test_dii_mens_conferences():
     pass
 
@@ -28,7 +25,7 @@ def test_dii_mens_conferences():
 @pytest.mark.conference
 @pytest.mark.diii
 @pytest.mark.men
-@scenario("./features/conference.feature", "DIII Men's Conferences")
+@scenario("features/conference.feature", "DIII Men's Conferences")
 def test_diii_mens_conferences():
     pass
 
@@ -37,7 +34,7 @@ def test_diii_mens_conferences():
 @pytest.mark.conference
 @pytest.mark.naia
 @pytest.mark.men
-@scenario("./features/conference.feature", "NAIA Men's Conferences")
+@scenario("features/conference.feature", "NAIA Men's Conferences")
 def test_naia_mens_conferences():
     pass
 
@@ -46,7 +43,7 @@ def test_naia_mens_conferences():
 @pytest.mark.conference
 @pytest.mark.njcaa
 @pytest.mark.men
-@scenario("./features/conference.feature", "NJCAA Men's Conferences")
+@scenario("features/conference.feature", "NJCAA Men's Conferences")
 def test_njcaa_mens_conferences():
     pass
 
@@ -55,7 +52,7 @@ def test_njcaa_mens_conferences():
 @pytest.mark.conference
 @pytest.mark.di
 @pytest.mark.women
-@scenario("./features/conference.feature", "DI Women's Conferences")
+@scenario("features/conference.feature", "DI Women's Conferences")
 def test_di_womens_conferences():
     pass
 
@@ -64,7 +61,7 @@ def test_di_womens_conferences():
 @pytest.mark.conference
 @pytest.mark.dii
 @pytest.mark.women
-@scenario("./features/conference.feature", "DII Women's Conferences")
+@scenario("features/conference.feature", "DII Women's Conferences")
 def test_dii_womens_conferences():
     pass
 
@@ -73,7 +70,7 @@ def test_dii_womens_conferences():
 @pytest.mark.conference
 @pytest.mark.diii
 @pytest.mark.women
-@scenario("./features/conference.feature", "DIII Women's Conferences")
+@scenario("features/conference.feature", "DIII Women's Conferences")
 def test_diii_womens_conferences():
     pass
 
@@ -82,7 +79,7 @@ def test_diii_womens_conferences():
 @pytest.mark.conference
 @pytest.mark.naia
 @pytest.mark.women
-@scenario("./features/conference.feature", "NAIA Women's Conferences")
+@scenario("features/conference.feature", "NAIA Women's Conferences")
 def test_naia_womens_conferences():
     pass
 
@@ -91,7 +88,7 @@ def test_naia_womens_conferences():
 @pytest.mark.conference
 @pytest.mark.njcaa
 @pytest.mark.women
-@scenario("./features/conference.feature", "NJCAA Women's Conferences")
+@scenario("features/conference.feature", "NJCAA Women's Conferences")
 def test_njcaa_womens_conferences():
     pass
 
@@ -99,7 +96,7 @@ def test_njcaa_womens_conferences():
 @pytest.mark.e2e
 @pytest.mark.conference
 @pytest.mark.lookup
-@scenario("./features/conference.feature", "Lookup Men's Conference By ID 1044")
+@scenario("features/conference.feature", "Lookup Men's Conference By ID 1044")
 def test_lookup_conference_by_id_1044():
     pass
 
@@ -107,7 +104,7 @@ def test_lookup_conference_by_id_1044():
 @pytest.mark.e2e
 @pytest.mark.conference
 @pytest.mark.lookup
-@scenario("./features/conference.feature", "Lookup Conference By ID 123")
+@scenario("features/conference.feature", "Lookup Conference By ID 123")
 def test_lookup_conference_by_id_123():
     pass
 
@@ -115,7 +112,7 @@ def test_lookup_conference_by_id_123():
 @pytest.mark.e2e
 @pytest.mark.conference
 @pytest.mark.lookup
-@scenario('./features/conference.feature', "Lookup Men's Conference By Name - Big Ten")
+@scenario('features/conference.feature', "Lookup Men's Conference By Name - Big Ten")
 def test_lookup_mens_conference_by_name_big_ten():
     pass
 
@@ -123,7 +120,7 @@ def test_lookup_mens_conference_by_name_big_ten():
 @pytest.mark.e2e
 @pytest.mark.conference
 @pytest.mark.lookup
-@scenario('./features/conference.feature', "Lookup Women's Conference By Name - Big Ten")
+@scenario('features/conference.feature', "Lookup Women's Conference By Name - Big Ten")
 def test_lookup_womens_conference_by_name_big_ten():
     pass
 
@@ -132,7 +129,7 @@ def test_lookup_womens_conference_by_name_big_ten():
 @pytest.mark.conference
 @pytest.mark.schools
 @pytest.mark.lookup
-@scenario('./features/conference.feature', "Retrieve Schools for Men's Conference by Conference Name - Big Ten")
+@scenario('features/conference.feature', "Retrieve Schools for Men's Conference by Conference Name - Big Ten")
 def test_retrieve_schools_for_conference_by_conference_name_big_ten():
     pass
 
@@ -141,6 +138,6 @@ def test_retrieve_schools_for_conference_by_conference_name_big_ten():
 @pytest.mark.conference
 @pytest.mark.schools
 @pytest.mark.lookup
-@scenario('./features/conference.feature', "Retrieve Schools for Men's Conference by Conference ID - 22")
+@scenario('features/conference.feature', "Retrieve Schools for Men's Conference by Conference ID - 22")
 def test_retrieve_schools_for_conference_by_conference_id_22():
     pass

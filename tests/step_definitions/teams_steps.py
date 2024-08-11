@@ -1,11 +1,8 @@
-import pytest
 from pytest_bdd import when, then, parsers
 
-from topdrawersoccer.tests.step_definitions.common_steps import context
 from topdrawersoccer.models.team import Team
 from topdrawersoccer.utils.text import remove_double_quotes
-from topdrawersoccer.config import DIVISIONS
-from topdrawersoccer.extractors.team_extractor import TeamExtractor, DIVISION_TO_URL_MAP
+from topdrawersoccer.extractors.team_extractor import TeamExtractor
 
 
 @when(parsers.parse('I retrieve all "{gender}" teams'))

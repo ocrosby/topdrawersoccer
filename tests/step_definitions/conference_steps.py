@@ -1,6 +1,5 @@
 from pytest_bdd import when, then, parsers
 
-from topdrawersoccer.tests.step_definitions.common_steps import context
 from topdrawersoccer.extractors.school_extractor import SchoolExtractor
 from topdrawersoccer.extractors.conference_extractor import ConferenceExtractor
 from topdrawersoccer.models.school import School
