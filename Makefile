@@ -12,6 +12,7 @@ clean:
 	@rm -f .coverage
 
 install:
+	@pip install --upgrade pip
 	@pip install -r requirements.txt
 
 freeze:
